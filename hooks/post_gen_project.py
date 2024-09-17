@@ -234,8 +234,8 @@ def remove_prettier_pre_commit():
 def remove_celery_files():
     file_names = [
         os.path.join("config", "celery_app.py"),
-        os.path.join("{{ cookiecutter.project_slug }}", "users", "tasks.py"),
-        os.path.join("{{ cookiecutter.project_slug }}", "users", "tests", "test_tasks.py"),
+        # os.path.join("{{ cookiecutter.project_slug }}", "users", "tasks.py"),
+        # os.path.join("{{ cookiecutter.project_slug }}", "users", "tests", "test_tasks.py"),
     ]
     for file_name in file_names:
         os.remove(file_name)
@@ -428,10 +428,10 @@ def remove_aws_dockerfile():
 
 def remove_drf_starter_files():
     os.remove(os.path.join("config", "api_router.py"))
-    shutil.rmtree(os.path.join("{{cookiecutter.project_slug}}", "users", "api"))
-    os.remove(os.path.join("{{cookiecutter.project_slug}}", "users", "tests", "test_drf_urls.py"))
-    os.remove(os.path.join("{{cookiecutter.project_slug}}", "users", "tests", "test_drf_views.py"))
-    os.remove(os.path.join("{{cookiecutter.project_slug}}", "users", "tests", "test_swagger.py"))
+    # shutil.rmtree(os.path.join("{{cookiecutter.project_slug}}", "users", "api"))
+    # os.remove(os.path.join("{{cookiecutter.project_slug}}", "users", "tests", "test_drf_urls.py"))
+    # os.remove(os.path.join("{{cookiecutter.project_slug}}", "users", "tests", "test_drf_views.py"))
+    # os.remove(os.path.join("{{cookiecutter.project_slug}}", "users", "tests", "test_swagger.py"))
 
 
 def main():
