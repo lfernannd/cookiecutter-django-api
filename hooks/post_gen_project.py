@@ -483,8 +483,8 @@ def main():
     if "{{ cookiecutter.frontend_pipeline }}" in ["None", "Django Compressor"]:
         remove_gulp_files()
         remove_webpack_files()
-        remove_sass_files()
-        remove_packagejson_file()
+        # remove_sass_files()
+        # remove_packagejson_file()
         remove_prettier_pre_commit()
         if "{{ cookiecutter.use_docker }}".lower() == "y":
             remove_node_dockerfile()
