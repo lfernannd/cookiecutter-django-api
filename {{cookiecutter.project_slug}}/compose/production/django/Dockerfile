@@ -59,8 +59,12 @@ ENV BUILD_ENV=${BUILD_ENVIRONMENT}
 
 WORKDIR ${APP_HOME}
 
-RUN addgroup --system django \
-    && adduser --system --ingroup django django
+# Define UID and GID to match Kubernetes security context
+ARG UID=1001
+ARG GID=3003
+
+RUN addgroup --gid ${GID} --system django \
+    && adduser --uid ${UID} --system --ingroup django django
 
 
 # Install required system dependencies
@@ -82,9 +86,9 @@ RUN pip install --no-cache-dir --no-index --find-links=/wheels/ /wheels/* \
   && rm -rf /wheels/
 
 
-COPY --chown=django:django ./compose/production/django/entrypoint /entrypoint
-RUN sed -i 's/\r$//g' /entrypoint
-RUN chmod +x /entrypoint
+# COPY --chown=django:django ./compose/production/django/entrypoint /entrypoint
+# RUN sed -i 's/\r$//g' /entrypoint
+# RUN chmod +x /entrypoint
 
 
 COPY --chown=django:django ./compose/production/django/start /start
@@ -121,11 +125,11 @@ RUN chown -R django:django ${APP_HOME}
 
 USER django
 
-RUN DATABASE_URL="" \
-  {%- if cookiecutter.use_celery == "y" %}
-  CELERY_BROKER_URL="" \
-  {%- endif %}
-  DJANGO_SETTINGS_MODULE="config.settings.test" \
-  python manage.py compilemessages
+# RUN DATABASE_URL="" \
+#   {%- if cookiecutter.use_celery == "y" %}
+#   CELERY_BROKER_URL="" \
+#   {%- endif %}
+#   DJANGO_SETTINGS_MODULE="config.settings.test" \
+#   python manage.py compilemessages
 
-ENTRYPOINT ["/entrypoint"]
+ENTRYPOINT ["/start"]

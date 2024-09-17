@@ -36,21 +36,16 @@ DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)
 # ------------------------------------------------------------------------------
 CACHES = {
     "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": env("REDIS_URL"),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            # Mimicing memcache behavior.
-            # https://github.com/jazzband/django-redis#memcached-exceptions-behavior
-            "IGNORE_EXCEPTIONS": True,
-        },
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "",
     },
 }
 
 # SECURITY
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#secure-proxy-ssl-header
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+# SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_PROXY_SSL_HEADER=None
 # https://docs.djangoproject.com/en/dev/ref/settings/#secure-ssl-redirect
 SECURE_SSL_REDIRECT = env.bool("DJANGO_SECURE_SSL_REDIRECT", default=True)
 # https://docs.djangoproject.com/en/dev/ref/settings/#session-cookie-secure
@@ -145,25 +140,25 @@ STORAGES = {
     },
     {%- endif %}
 {%- elif cookiecutter.cloud_provider == 'GCP' %}
-    "default": {
-        "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
-        "OPTIONS": {
-            "location": "media",
-            "file_overwrite": False,
-        },
-    },
+    # "default": {
+    #     "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+    #     "OPTIONS": {
+    #         "location": "media",
+    #         "file_overwrite": False,
+    #     },
+    # },
     {%- if cookiecutter.use_whitenoise == 'y' %}
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
     {%- else %}
-    "staticfiles": {
-        "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
-        "OPTIONS": {
-            "location": "static",
-            "default_acl": "publicRead",
-        },
-    },
+    # "staticfiles": {
+    #     "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+    #     "OPTIONS": {
+    #         "location": "static",
+    #         "default_acl": "publicRead",
+    #     },
+    # },
     {%- endif %}
 {%- elif cookiecutter.cloud_provider == 'Azure' %}
     "default": {
@@ -196,7 +191,7 @@ COLLECTFASTA_STRATEGY = "collectfasta.strategies.boto3.Boto3Strategy"
 STATIC_URL = f"https://{aws_s3_domain}/static/"
 {%- endif %}
 {%- elif cookiecutter.cloud_provider == 'GCP' %}
-MEDIA_URL = f"https://storage.googleapis.com/{GS_BUCKET_NAME}/media/"
+# MEDIA_URL = f"https://storage.googleapis.com/{GS_BUCKET_NAME}/media/"
 {%- if cookiecutter.use_whitenoise == 'n' %}
 COLLECTFASTA_STRATEGY = "collectfasta.strategies.gcloud.GoogleCloudStrategy"
 STATIC_URL = f"https://storage.googleapis.com/{GS_BUCKET_NAME}/static/"
@@ -207,6 +202,12 @@ MEDIA_URL = f"https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/media/"
 STATIC_URL = f"https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/static/"
 {%- endif %}
 {%- endif %}
+
+STATIC_URL = "/static/"
+STATIC_ROOT = Path("/data") / "{{cookiecutter.project_slug}}" / "static"
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = Path("/data") / "{{cookiecutter.project_slug}}" / "media"
 
 # EMAIL
 # ------------------------------------------------------------------------------
@@ -326,7 +327,7 @@ COMPRESS_FILTERS = {
 # Collectfasta
 # ------------------------------------------------------------------------------
 # https://github.com/jasongi/collectfasta#installation
-INSTALLED_APPS = ["collectfasta", *INSTALLED_APPS]
+# INSTALLED_APPS = ["collectfasta", *INSTALLED_APPS]
 {% endif %}
 # LOGGING
 # ------------------------------------------------------------------------------
