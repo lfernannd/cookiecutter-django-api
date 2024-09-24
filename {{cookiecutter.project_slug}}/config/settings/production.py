@@ -1,4 +1,6 @@
 # ruff: noqa: E501
+from pathlib import Path
+
 {% if cookiecutter.use_sentry == 'y' -%}
 import logging
 
@@ -193,8 +195,8 @@ STATIC_URL = f"https://{aws_s3_domain}/static/"
 {%- elif cookiecutter.cloud_provider == 'GCP' %}
 # MEDIA_URL = f"https://storage.googleapis.com/{GS_BUCKET_NAME}/media/"
 {%- if cookiecutter.use_whitenoise == 'n' %}
-COLLECTFASTA_STRATEGY = "collectfasta.strategies.gcloud.GoogleCloudStrategy"
-STATIC_URL = f"https://storage.googleapis.com/{GS_BUCKET_NAME}/static/"
+# COLLECTFASTA_STRATEGY = "collectfasta.strategies.gcloud.GoogleCloudStrategy"
+# STATIC_URL = f"https://storage.googleapis.com/{GS_BUCKET_NAME}/static/"
 {%- endif %}
 {%- elif cookiecutter.cloud_provider == 'Azure' %}
 MEDIA_URL = f"https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/media/"
