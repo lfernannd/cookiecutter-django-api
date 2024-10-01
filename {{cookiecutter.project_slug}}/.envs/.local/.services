@@ -1,4 +1,4 @@
 # Other services urls
 # ------------------------------------------------------------------------
-USER_SERVICE_URL=http://localhost:8002/
+USERS_SERVICE_URL=http://localhost:8002/
 COMMS_SERVICE_URL=http://localhost:8003/api/v1

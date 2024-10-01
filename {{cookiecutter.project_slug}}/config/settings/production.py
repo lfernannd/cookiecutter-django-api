@@ -112,7 +112,7 @@ AZURE_CONTAINER = env("DJANGO_AZURE_CONTAINER_NAME")
 {% if cookiecutter.cloud_provider != 'None' or cookiecutter.use_whitenoise == 'y' -%}
 # STATIC & MEDIA
 # ------------------------
-STORAGES = {
+# STORAGES = {
 {%- if cookiecutter.use_whitenoise == 'y' and cookiecutter.cloud_provider == 'None' %}
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
@@ -183,7 +183,7 @@ STORAGES = {
     },
     {%- endif %}
 {%- endif %}
-}
+# }
 {%- endif %}
 
 {%- if cookiecutter.cloud_provider == 'AWS' %}

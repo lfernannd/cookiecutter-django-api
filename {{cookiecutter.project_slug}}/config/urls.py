@@ -15,6 +15,13 @@ from drf_spectacular.views import SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
 {%- endif %}
 
+prefix = settings.SERVICE_URL_PREFIX
+
+
+def pre_path(*args, **kwargs):
+    prefix_url = f"{prefix}/" if prefix else ""
+    return path(f"{prefix_url}" + args[0], *args[1:], **kwargs)
+
 urlpatterns = [
     # Django Admin, use {% raw %}{% url 'admin:index' %}{% endraw %}
     path(settings.ADMIN_URL, admin.site.urls),
